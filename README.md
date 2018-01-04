@@ -27,6 +27,7 @@ My own spk created with these sources and Mods Packager
 - prompt the user to pick a theme during installation
 - prompt the user to get name and email in order to create gpgkeys
 - create gpg keys for package signing purpose (gpg2 - gpgme - me needs to be installed on Synology)
+- publish the public key in SSPKS so users can trust packages signed there
 
 Installation
 ============

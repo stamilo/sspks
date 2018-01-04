@@ -130,6 +130,7 @@ auto_upgrade_from - version number (optional)
             'silent_uninstall' => $this->ifEmpty($pkg, 'silent_uninstall', false),
             'silent_upgrade'   => $this->ifEmpty($pkg, 'silent_upgrade', false),
             'beta'         => $pkg->beta, // beta channel
+            'signed'       => $pkg->signed // signed spk
         );
         return $packageJSON;
     }

@@ -21,6 +21,7 @@ namespace SSpkS\Package;
  * @property array $snapshot List of screenshot files
  * @property array $snapshot_url List of screenshot URLs
  * @property bool $beta TRUE if this is a beta package.
+ * @property bool $signed TRUE if this is a signed package.
  * @property string $firmware Minimum firmware needed on device.
  * @property string $install_dep_services Dependencies required by this package.
  * @property bool $silent_install Allow silent install
@@ -138,6 +139,16 @@ class Package
             // metadata already collected
             return;
         }
+		
+	$metadate = date("YmdHis", filemtime($this->metafile));
+	$filedate  = date("YmdHis", filemtime($this->filepath));
+	if ($metadate < $filedate) {
+		unlink($this->metafile);
+		unlink($this->filepathNoExt . '.asc');
+		unlink($this->filepathNoExt . '_thumb_*.png');
+		unlink($this->filepathNoExt . '_screen_*.png');
+	}
+		
         $this->extractIfMissing('INFO', $this->metafile);
         $this->metadata = parse_ini_file($this->metafile);
         if (!isset($this->metadata['displayname'])) {
@@ -152,14 +163,15 @@ class Package
         $this->fixBoolIfExist('silent_uninstall');
         $this->fixBoolIfExist('silent_upgrade');
 
-        if (isset($this->metadata['beta']) && in_array($this->metadata['beta'], array('true', '1', 'beta'))) {
+        if (isset($this->metadata['beta']) && in_array($this->metadata['beta'], array('true', 'yes', '1', 'beta'))) {
             $this->metadata['beta'] = true;
         } else {
             $this->metadata['beta'] = false;
         }
 
         $this->metadata['thumbnail'] = $this->getThumbnails();
-        $this->metadata['snapshot']  = $this->getSnapshots();
+        $this->metadata['snapshot'] = $this->getSnapshots();
+	$this->metadata['signed'] = $this->getSignature();
     }
 
     /**
@@ -280,10 +292,26 @@ class Package
         // Add screenshots, if available
         foreach (glob($this->filepathNoExt . '*_screen_*.png') as $snapshot) {
             $snapshots[] = $pathPrefix . $snapshot;
-        }
+        }		
         return $snapshots;
     }
 
+    /**
+     * Check if the package has a signature file.
+     *
+     * @return true or false
+     */
+    public function getSignature()
+    {
+	$signature = $this->filepathNoExt . '.asc';
+	try {
+		$this->extractIfMissing('syno_signature.asc', $signature);
+	} catch (\Exception $e) {			
+	}
+		
+        return file_exists($signature);
+    }
+	
     /**
      * Checks compatibility to the given $arch-itecture.
      *
@@ -320,4 +348,15 @@ class Package
         $this->collectMetadata();
         return (isset($this->metadata['beta']) && $this->metadata['beta'] == true);
     }
+	
+    /**
+     * Checks if this package is signed or not.
+     *
+     * @return bool TRUE if this is signed, FALSE otherwise.
+     */
+    public function isSigned()
+    {
+        $this->collectMetadata();
+        return (isset($this->metadata['signed']) && $this->metadata['signed'] == true);
+    }	
 }

@@ -1,6 +1,6 @@
 site:
     name: Simple SPK Server
-    theme: material
+    theme: beatificabytes
     # If set, packet listing will be disabled
     # and will redirect to the given URL
     redirectindex:

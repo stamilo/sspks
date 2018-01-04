@@ -24,7 +24,9 @@ class BrowserPackageListHandler extends AbstractHandler
 
         $pkgs = new PackageFinder($this->config);
         $pkgf = new PackageFilter($this->config, $pkgs->getAllPackages());
-        $pkgf->setArchitectureFilter($arch);
+	if ($arch != "all") {
+		$pkgf->setArchitectureFilter($arch);
+	}
         $pkgf->setFirmwareVersionFilter(false);
         $pkgf->setOldVersionFilter(true);
         $filteredPkgList = $pkgf->getFilteredPackageList();

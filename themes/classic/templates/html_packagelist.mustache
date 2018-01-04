@@ -6,7 +6,7 @@
                     </div>
                     <div class="spk-desc">
                         <span class="spk-title">{{ displayname }} v{{ version }}</span><br />
-                        <p class="dsm-version">Minimum DSM version: {{ firmware }}</p>
+                        <p class="dsm-version">DSM version &ge; {{^os_min_ver}}{{ firmware }} {{/os_min_ver}}{{ os_min_ver }}{{#os_max_ver}} &le; {{ os_max_ver }}{{/os_max_ver}}</p>
                         <p>{{ description }}</p>
                         <p>
                             <a id="{{ package }}_show" href="#nogo" onclick="toggleClass('open', ['{{ package }}_detail']); toggleClass('hidden', ['{{ package }}_show', '{{ package }}_hide']); return false;">More...</a>
@@ -19,7 +19,9 @@
                                 <tr><td>Display Name</td><td>{{ displayname }}</td></tr>
                                 <tr><td>Maintainer</td><td>{{ maintainer }}</td></tr>
                                 <tr><td>Arch</td><td>{{# arch}}{{.}} {{/ arch}}</td></tr>
-                                <tr><td>Firmware</td><td>{{ firmware }}</td></tr>
+                		{{^os_min_ver}}<tr><td>Firmware</td><td>{{ firmware }}{{ os_min_ver }}</td></tr>{{/os_min_ver}}
+				{{#os_min_ver}}<tr><td>Earliest Firmware</td><td>{{ os_min_ver }}</td></tr>{{/os_min_ver}}
+				{{#os_max_ver}}<tr><td>Latest Firmware</td><td>{{ os_max_ver }}</td></tr>{{/os_max_ver}}
                             </table>
                         </div>
                     </div>

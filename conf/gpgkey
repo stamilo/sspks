@@ -1,0 +1,15 @@
+%echo generating an OpenPGP key
+Key-Type: RSA
+Key-Length: 2048
+Subkey-Type: RSA
+Subkey-Length: 2048
+Name-Real: @name@
+Name-Email: @email@
+Expire-Date: 0
+%no-protection
+# Write public key into a file pub.gpg
+%pubring gpg/pubring.gpg
+# Write secret key into a file sec.gpg
+%secring gpg/secring.gpg
+# Do a commit here, so that we can later print "done" :-)
+%commit

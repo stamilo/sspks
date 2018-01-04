@@ -1,3 +1,7 @@
+noarch:
+    all:
+        - Any (See all SPK)
+        
 armada370:
     armada370:
         - DS114

@@ -1,0 +1,25 @@
+                </div>
+                <footer class="mdl-mini-footer">
+                    <div class="mdl-mini-footer--left-section">
+                        <div class="mdl-logo">SSPKS:</div>
+                        <ul class="mdl-mini-footer--link-list">
+                            <li><a class="mdl-navigation__link" href="https://github.com/jdel/sspks" target="_blank">Original Sources on GitHub</a> - <a class="mdl-navigation__link" href="https://github.com/vletroye/sspks" target="_blank">modified by vletroye</a> (theme: beatificabytes)</li>
+                        </ul>
+                    </div>
+{{# branch }}
+                    <div class="mdl-mini-footer--right-section">
+                        <div class="mdl-logo">Version</div>
+                        <ul class="mdl-mini-footer--link-list">
+                            <li><a class="mdl-navigation__link" href="https://github.com/jdel/sspks/tree/{{ branch }}" target="_blank">{{ branch }}</a></li>
+{{# commitHash }}
+                            <li><a class="mdl-navigation__link" href="https://github.com/jdel/sspks/commit/{{ commitHash }}" target="_blank">{{ commitHash }}</a></li>
+{{/ commitHash }}
+                        </ul>
+                        </div>
+                    </div>
+{{/ branch }}
+                </footer>
+            </main>
+        </div>
+    </body>
+</html>

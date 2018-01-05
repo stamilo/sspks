@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 #rm -rf .gnupg
+LOG="/var/log/mods_sspks.log"
+
 if [ ! -f ~/.gnupg/gpg.conf ]; then
 	mkdir -p -m 0700 ~/.gnupg
 	touch ~/.gnupg/gpg.conf
@@ -18,13 +20,16 @@ mkdir -p -m 0700 gpg
 (dd if=/dev/zero of=/dev/null) & pid=$!
 
 #generate the key
-gpg2 --passphrase '' --batch --gen-key ./gpgkey
+echo `date` "Generating Key" >> $LOG
+gpg2 --passphrase '' --batch --gen-key ./gpgkey 
 
 #fetch the key id
+echo `date` "Retrieving Key" >> $LOG
 keyid=$(gpg2 --no-default-keyring --secret-keyring ./gpg/secring.gpg -K | grep -m1 'sec   ' | cut -c 13-20)
-echo $keyid > gpgkeyid.asc
+echo $keyid > ./gpgkeyid.asc
 
 #export the public key
+echo `date` "Exporting Key" >> $LOG
 gpg2 --no-default-keyring --keyring ./gpg/pubring.gpg --armor --export $keyid  > ./gpgkey.asc
 
 #kill the entropy generator

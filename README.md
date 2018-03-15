@@ -32,8 +32,8 @@ My own spk created with these sources and Mods Packager
 Installation
 ============
 
-This is used by "Mods Packager" to create a SPK file that can be deployed on Synology.
-install gpg2 on your synology using: ipkg install gpgme
+This code is used as-is by "Mods Packager" to create a SPK file that can be deployed on Synology.
+You will have to install gpg2 on your synology using the following command in a ssh console: ipkg install gpgme
 
 Contribute
 ==========
